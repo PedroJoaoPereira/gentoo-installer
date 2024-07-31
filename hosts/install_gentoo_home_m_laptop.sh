@@ -11,9 +11,9 @@ export THIS_PASSWORD=
 
 export THIS_DISK=/dev/sda
 
-export THIS_EFI_SIZE=+512M
-export THIS_SWAP_SIZE=+8G
-export THIS_ROOT_SIZE=''
+export THIS_EFI_SIZE=+1G
+export THIS_SWAP_SIZE=+16G
+export THIS_ROOT_SIZE=' '
 
 # fdisk options here
 export THIS_EXTRA_LAYOUT=$(

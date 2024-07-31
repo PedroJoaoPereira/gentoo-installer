@@ -16,7 +16,7 @@ sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\
 # select video cards - only for intel graphics
 sed -i "s/VIDEO_CARDS=\"\"/VIDEO_CARDS=\"intel i915\"/g" /etc/portage/make.conf
 # input devices - only for laptop touchpad
-sed -i "s/INPUT_DEVICES=\"\"/INPUT_DEVICES=\"evdev libinput synaptics\"/g" /etc/portage/make.conf
+sed -i "s/INPUT_DEVICES=\"\"/INPUT_DEVICES=\"libinput\"/g" /etc/portage/make.conf
 
 # change global use flags
 sed -i "s/USE=\"dbus networkmanager\"/USE=\"dbus networkmanager elogind X pulseaudio text gtk\"/g" /etc/portage/make.conf
@@ -28,10 +28,11 @@ echo 'net-misc/networkmanager -modemmanager' >>/etc/portage/package.use
 # update system after flag changes
 emerge --ask=n --verbose --update --deep --changed-use --with-bdeps=y --backtrack=30 @world
 emerge --ask=n --depclean
-eselect news read
+eselect news read >/dev/null 2>&1
 
 # install dependencies
 echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
+echo 'x11-misc/xcape ~amd64' >>/etc/portage/package.accept_keywords
 
 echo 'x11-misc/dmenu savedconfig' >>/etc/portage/package.use
 echo 'x11-terms/st savedconfig' >>/etc/portage/package.use
@@ -42,17 +43,26 @@ echo 'net-im/discord all-rights-reserved' >>/etc/portage/package.license
 echo 'sys-firmware/intel-microcode intel-ucode' >>/etc/portage/package.license
 echo 'www-client/google-chrome google-chrome' >>/etc/portage/package.license
 
+echo 'net-libs/nodejs march-core2' >>/etc/portage/package.env
+
+mkdir -p /etc/portage/env
+echo 'CFLAGS="${CFLAGS} -march=core2"' >>/etc/portage/env/march-core2
+echo 'CXXFLAGS="${CXXFLAGS} -march=core2"' >>/etc/portage/env/march-core2
+
 emerge --ask=n \
   app-admin/stow \
+  app-editors/vscode \
   app-laptop/laptop-mode-tools \
   app-shells/starship \
   app-shells/zoxide \
+  media-fonts/noto-emoji \
   media-gfx/feh \
   media-libs/libpulse \
   net-im/discord \
   sys-apps/eza \
   sys-firmware/intel-microcode \
   sys-power/acpilight \
+  sys-power/acpitool \
   sys-process/btop \
   www-client/google-chrome \
   x11-apps/setxkbmap \
@@ -61,7 +71,12 @@ emerge --ask=n \
   x11-apps/xsetroot \
   x11-base/xorg-server \
   x11-misc/dmenu \
+  x11-misc/xcape \
   x11-terms/st \
   x11-wm/dwm
 
 rc-update add laptop_mode default
+
+# yadm bootstrap ?
+
+./scripts/install_nerd_fonts.sh Ubuntu Hack UbuntuMono
