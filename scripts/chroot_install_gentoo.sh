@@ -130,17 +130,22 @@ EOF
 chown -c root:root /etc/doas.conf
 
 # personal base system dependencies
+echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
+
 emerge --ask=n \
   app-admin/doas \
   app-admin/eclean-kernel \
+  app-admin/stow \
   app-admin/yadm \
   app-editors/neovim \
   app-misc/fastfetch \
   app-portage/gentoolkit \
+  app-shells/starship \
+  app-shells/zoxide \
   dev-vcs/git \
   net-misc/chrony \
   net-misc/keychain \
-  sys-block/io-scheduler-udev-rules \
+  sys-apps/eza \
   sys-kernel/gentoo-kernel \
   sys-process/btop \
   sys-process/cronie

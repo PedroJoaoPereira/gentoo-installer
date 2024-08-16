@@ -96,8 +96,6 @@ eselect news read >/dev/null 2>&1
 echo -e '\n### Install dependencies...\n'
 
 # install dependencies
-echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
-
 echo 'sys-firmware/intel-microcode intel-ucode' >>/etc/portage/package.license
 echo 'www-client/google-chrome google-chrome' >>/etc/portage/package.license
 echo 'x11-drivers/nvidia-drivers NVIDIA-r2' >>/etc/portage/package.license
@@ -106,18 +104,12 @@ echo 'kde-apps/kde-apps-meta admin graphics multimedia network utils -accessibil
 echo 'kde-plasma/plasma-meta bluetooth browser-integration crash-handler crypt cups desktop-portal discover display-manager elogind firewall gtk handbook kwallet legacy-systray networkmanager pulseaudio sddm smart wallpapers -accessibility -colord -flatpak -grub -plymouth -sdk -systemd -thunderbolt' >>/etc/portage/package.use
 
 emerge --ask=n \
-  app-admin/stow \
   app-laptop/laptop-mode-tools \
-  app-portage/gentoolkit \
-  app-shells/starship \
-  app-shells/zoxide \
   kde-apps/kde-apps-meta \
   kde-plasma/plasma-meta \
-  sys-apps/eza \
   sys-firmware/intel-microcode \
-  sys-process/btop \
   www-client/google-chrome \
-  x11-base/xorg-server
+  x11-base/xorg-server \
 
 if [ $? -ne 0 ]; then
   echo 'Error installing'

@@ -32,7 +32,6 @@ eselect news read >/dev/null 2>&1
 
 # install dependencies
 echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
-echo 'x11-misc/xcape ~amd64' >>/etc/portage/package.accept_keywords
 
 echo 'x11-misc/dmenu savedconfig' >>/etc/portage/package.use
 echo 'x11-terms/st savedconfig' >>/etc/portage/package.use
@@ -50,16 +49,13 @@ echo 'CFLAGS="${CFLAGS} -march=core2"' >>/etc/portage/env/march-core2
 echo 'CXXFLAGS="${CXXFLAGS} -march=core2"' >>/etc/portage/env/march-core2
 
 emerge --ask=n \
-  app-admin/stow \
   app-editors/vscode \
   app-laptop/laptop-mode-tools \
-  app-shells/starship \
-  app-shells/zoxide \
   media-fonts/noto-emoji \
   media-gfx/feh \
   media-libs/libpulse \
   net-im/discord \
-  sys-apps/eza \
+  sys-block/io-scheduler-udev-rules \
   sys-firmware/intel-microcode \
   sys-power/acpilight \
   sys-power/acpitool \
@@ -70,10 +66,17 @@ emerge --ask=n \
   x11-apps/xrandr \
   x11-apps/xsetroot \
   x11-base/xorg-server \
+  x11-misc/arandr \
+  x11-misc/autorandr \
   x11-misc/dmenu \
+  x11-misc/numlockx \
   x11-misc/xcape \
   x11-terms/st \
   x11-wm/dwm
+
+# use xinerama flag for each of the suckless tools
+# maybe bluetooth
+# there might be some dependencies that get pull from other dependencies, check and remove them
 
 rc-update add laptop_mode default
 
