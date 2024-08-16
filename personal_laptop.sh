@@ -72,6 +72,7 @@ emerge --ask=n \
   x11-misc/numlockx \
   x11-misc/xcape \
   x11-terms/st \
+  x11-themes/neutral-xcursors \
   x11-wm/dwm
 
 # use xinerama flag for each of the suckless tools
