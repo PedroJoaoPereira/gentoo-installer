@@ -82,4 +82,4 @@ rc-update add laptop_mode default
 
 # yadm bootstrap ?
 
-./scripts/install_nerd_fonts.sh Ubuntu Hack UbuntuMono
+./scripts/install_nerd_fonts.sh Hack
