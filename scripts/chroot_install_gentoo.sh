@@ -85,8 +85,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-eselect news read >/dev/null 2>&1
-
 echo -e '\n### Preparing kernel installation...\n'
 
 echo 'sys-kernel/installkernel dracut grub' >>/etc/portage/package.use
@@ -95,8 +93,6 @@ if [ $? -ne 0 ]; then
   echo 'Error installing'
   exit 1
 fi
-
-eselect news read >/dev/null 2>&1
 
 # setup initramfs configuration file, though empty
 mkdir -p /etc/dracut.conf.d
@@ -147,15 +143,12 @@ emerge --ask=n \
   net-misc/keychain \
   sys-apps/eza \
   sys-kernel/gentoo-kernel \
-  sys-process/btop \
   sys-process/cronie
 
 if [ $? -ne 0 ]; then
   echo 'Error installing'
   exit 1
 fi
-
-eselect news read >/dev/null 2>&1
 
 echo -e '\n### Setting fstab...\n'
 
@@ -227,9 +220,11 @@ passwd -l root
 
 echo -e '\n### Post installation setup...\n'
 
-. /post_install_gentoo.sh
+#. /post_install_gentoo.sh
 
 echo -e '\n### Removing installation artifacts...\n'
+
+eselect news read >/dev/null 2>&1
 
 # remove artifacts
 rm /chroot_install_gentoo.sh
