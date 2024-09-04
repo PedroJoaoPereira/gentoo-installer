@@ -1,19 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
 # ----- ----- ----- ----- -----
 # machine settings
 
-export THIS_HOST_NAME=gentoo-test-laptop
-export THIS_PASSWORD=test
+export THIS_HOST_NAME=gentoo-home-m-laptop
+export THIS_PASSWORD=
 
 # ----- ----- ----- ----- -----
 # disk configuration
 
 export THIS_DISK=/dev/sda
 
-export THIS_EFI_SIZE=+512M
-export THIS_SWAP_SIZE=+2G
-export THIS_ROOT_SIZE=+32G
+export THIS_EFI_SIZE=+1G
+export THIS_SWAP_SIZE=+16G
+export THIS_ROOT_SIZE=' '
 
 # fdisk options here
 export THIS_EXTRA_LAYOUT=$(
@@ -31,6 +31,7 @@ END
 
 export THIS_DISK_SEPARATOR=''
 export THIS_STAGE3_FILE=https://distfiles.gentoo.org/releases/amd64/autobuilds/20240714T170402Z/stage3-amd64-openrc-20240714T170402Z.tar.xz
+export THIS_DOTFILES_URL=https://github.com/PedroJoaoPereira/dotfiles.git
 
 # ----- ----- ----- ----- -----
 

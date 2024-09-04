@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo -e '\n### Adding graphics driver to boot process...\n'
 
@@ -109,7 +109,7 @@ emerge --ask=n \
   kde-plasma/plasma-meta \
   sys-firmware/intel-microcode \
   www-client/google-chrome \
-  x11-base/xorg-server \
+  x11-base/xorg-server
 
 if [ $? -ne 0 ]; then
   echo 'Error installing'

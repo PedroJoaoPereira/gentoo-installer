@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 THIS_FONTS_DIR="${HOME}/.local/share/fonts/"
 THIS_FONTS_REPOSITORY=https://github.com/ryanoasis/nerd-fonts/releases/latest/download/
