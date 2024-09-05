@@ -38,7 +38,7 @@ mkdir -p /mnt/gentoo/etc/portage/env
 # creates default portage configuration
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf
 # global USE flags
-USE=""
+USE="networkmanager"
 
 # portage default options
 #MAKEOPTS="-jXX -lYY"

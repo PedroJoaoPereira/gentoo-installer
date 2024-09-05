@@ -27,4 +27,4 @@ eselect news read >/dev/null 2>&1
 # reloads environment variables
 env-update && source /etc/profile
 # sets up openrc services
-# rc-update add elogind boot
+rc-update add elogind boot

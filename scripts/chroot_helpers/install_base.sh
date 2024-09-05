@@ -38,7 +38,7 @@ if [ $? -ne 0 ]; then
    exit 1
 fi
 # changes global USE flags
-sed -i "s/USE=\"\"/USE=\"${THIS_EXTRA_USE_FLAGS}\"/g" /etc/portage/make.conf
+sed -i "s/USE=\"networkmanager\"/USE=\"${THIS_EXTRA_USE_FLAGS} networkmanager\"/g" /etc/portage/make.conf
 # selects CPU flags
 sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\"/g" /etc/portage/make.conf
 # selects GPU flags

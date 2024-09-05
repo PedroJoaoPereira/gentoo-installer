@@ -19,7 +19,8 @@ emerge --ask=n \
    net-misc/keychain \
    sys-apps/eza \
    sys-block/io-scheduler-udev-rules \
-   sys-kernel/gentoo-kernel
+   sys-kernel/gentoo-kernel \
+   sys-process/cronie
 if [ $? -ne 0 ]; then
    echo 'Error installing dependencies'
    exit 1
