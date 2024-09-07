@@ -28,3 +28,10 @@ eselect news read >/dev/null 2>&1
 env-update && source /etc/profile
 # sets up openrc services
 rc-update add elogind boot
+
+### WIP
+emerge sys-process/cronie
+rc-update add NetworkManager default
+rc-update add numlock default
+rc-update add sshd default
+rc-update add cronie default

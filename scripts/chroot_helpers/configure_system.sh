@@ -16,11 +16,7 @@ cat /etc/fstab
 # sets keyboard layout
 sed -i 's/keymap="us"/keymap="pt-latin9"/g' /etc/conf.d/keymaps
 # sets up openrc services
-rc-update add NetworkManager default
 rc-update add chronyd default
-rc-update add cronie default
-rc-update add numlock default
-rc-update add sshd default
 # sets hostname
 echo ${THIS_HOST_NAME} >/etc/hostname
 cat <<EOF >/etc/hosts
