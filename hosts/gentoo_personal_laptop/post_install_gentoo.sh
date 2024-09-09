@@ -43,3 +43,8 @@ rc-update add display-manager default
 rc-update add elogind boot
 rc-update add numlock default
 rc-update add power-profiles-daemon default
+
+echo -e '\n### Bootstrapping dotfiles...\n'
+# sets up yadm
+su chuck
+yadm clone -b ${THIS_HOST_NAME} ${THIS_DOTFILES_URL} --bootstrap
