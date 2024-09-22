@@ -14,9 +14,14 @@ echo 'www-client/google-chrome google-chrome' >>/etc/portage/package.license
 emerge --ask=n \
   app-editors/vscode \
   gnome-base/gnome-light \
+  gnome-extra/gnome-calculator \
+  gnome-extra/gnome-calendar \
+  gnome-extra/gnome-weather \
+  media-fonts/noto-emoji \
   net-im/discord \
   sys-firmware/intel-microcode \
   sys-power/power-profiles-daemon \
+  sys-process/btop \
   www-client/google-chrome
 if [ $? -ne 0 ]; then
   echo 'Error installing extra dependencies'
