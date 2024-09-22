@@ -22,7 +22,8 @@ emerge --ask=n \
   sys-firmware/intel-microcode \
   sys-power/power-profiles-daemon \
   sys-process/btop \
-  www-client/google-chrome
+  www-client/google-chrome \
+  x11-terms/alacritty
 if [ $? -ne 0 ]; then
   echo 'Error installing extra dependencies'
   exit 1
