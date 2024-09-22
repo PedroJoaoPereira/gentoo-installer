@@ -13,7 +13,14 @@ echo 'sys-firmware/intel-microcode intel-ucode' >>/etc/portage/package.license
 echo 'www-client/google-chrome google-chrome' >>/etc/portage/package.license
 emerge --ask=n \
   app-editors/vscode \
-  gnome-base/gnome-light \
+  dev-libs/gjs \
+  gnome-base/gnome-control-center \
+  gnome-base/gnome-core-libs \
+  gnome-base/gnome-session \
+  gnome-base/gnome-settings-daemon \
+  gnome-base/gnome-shell \
+  gnome-base/gvfs \
+  gnome-base/nautilus \
   gnome-extra/gnome-calculator \
   gnome-extra/gnome-calendar \
   gnome-extra/gnome-weather \
@@ -23,7 +30,8 @@ emerge --ask=n \
   sys-power/power-profiles-daemon \
   sys-process/btop \
   www-client/google-chrome \
-  x11-terms/alacritty
+  x11-terms/alacritty \
+  x11-wm/mutter
 if [ $? -ne 0 ]; then
   echo 'Error installing extra dependencies'
   exit 1
