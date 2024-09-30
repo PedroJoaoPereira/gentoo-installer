@@ -40,27 +40,13 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE}
     p  # print disk partition table
     q  # quit
 EOF
-echo
-fdisk -l ${DEVICE}
 
 # fat32 BOOT
 mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1
-if [ $? -ne 0 ]; then
-    echo 'Error creating EFI filesystem'
-    exit 1
-fi
 # linux-swap SWAP
 mkswap ${DEVICE}${DEVICE_SEPARATOR}2
 swapon ${DEVICE}${DEVICE_SEPARATOR}2
-if [ $? -ne 0 ]; then
-    echo 'Error creating SWAP filesystem'
-    exit 1
-fi
 # ext4 ROOT
 mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 <<EOD
 y
 EOD
-if [ $? -ne 0 ]; then
-    echo 'Error creating ROOT filesystem'
-    exit 1
-fi

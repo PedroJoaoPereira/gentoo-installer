@@ -68,6 +68,9 @@ _______________________________________________________________
     fi
     ROOT_SIZE="${ROOT_SIZE_TEMP}"
 
+    read -p ' - Stage file URL (default is https://distfiles.gentoo.org/releases/amd64/autobuilds/20240929T163611Z/stage3-amd64-openrc-20240929T163611Z.tar.xz): ' STAGE_FILE
+    STAGE_FILE="${STAGE_FILE:-https://distfiles.gentoo.org/releases/amd64/autobuilds/20240929T163611Z/stage3-amd64-openrc-20240929T163611Z.tar.xz}"
+
     echo -e "
 Host: ${HOST}
 Device: ${DEVICE}
@@ -75,6 +78,7 @@ Device separator: ${DEVICE_SEPARATOR}
 EFI partition size: ${EFI_SIZE}
 SWAP partition size: ${SWAP_SIZE}
 ROOT partition size: ${ROOT_SIZE}
+Stage file: ${STAGE_FILE}
 
 Verify the setup details before moving on
 "
