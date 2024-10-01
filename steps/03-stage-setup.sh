@@ -19,7 +19,7 @@ cd /mnt/gentoo
 wget ${STAGE_FILE}
 tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
-# generates empty portage configurations
+# configures empty portage configuration
 rm -rf /mnt/gentoo/etc/portage/package.*
 mkdir -p /mnt/gentoo/etc/portage/env
 touch /mnt/gentoo/etc/portage/package.accept_keywords

@@ -25,26 +25,16 @@ chmod 1777 /dev/shm /run/shm
 
 # creates chroot scripts
 mkdir -p /mnt/gentoo/installation-scripts
-envsubst <"${STEPS_DIR}/05-xxx.sh" >"/mnt/gentoo/installation-scripts/chroot_install_gentoo.sh"
+envsubst <"${STEPS_DIR}/05-install-base.sh" >"/mnt/gentoo/installation-scripts/05-install-base.sh"
+envsubst <"${STEPS_DIR}/06-prepare-kernel.sh" >"/mnt/gentoo/installation-scripts/06-prepare-kernel.sh"
+envsubst <"${STEPS_DIR}/07-install-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-install-dependencies.sh"
 
-# TODO
-envsubst <$1 >$2
+# chroots into system
+chroot /mnt/gentoo /bin/bash <<END
+source /etc/profile
+export PS1="(chroot) ${PS1}"
 
-# creates file from template with expanded variables in a directory
-create_file() {
-  envsubst <$1 >$2
-}
-
-echo -e '\n### Preparing chroot...\n'
-
-# copies DNS information
-# mounts required filesystems
-# required on non gentoo live install environments
-
-echo -e '\n### Creating chroot scripts...\n'
-# creates chroot scripts directory
-create_file "${THIS_SCRIPTS_DIR}/chroot_install_gentoo.sh" "/mnt/gentoo/chroot_install_gentoo.sh"
-create_file "${THIS_HOST_DIR}/post_install_gentoo.sh" "/mnt/gentoo/post_install_gentoo.sh"
-for file in ${THIS_SCRIPTS_DIR}/chroot_helpers/*.sh; do
-  create_file "${file}" "/mnt/gentoo/helpers/$(basename $file)"
-done
+source /installation-scripts/05-install-base.sh
+source /installation-scripts/06-prepare-kernel.sh
+source /installation-scripts/07-install-dependencies.sh
+END
