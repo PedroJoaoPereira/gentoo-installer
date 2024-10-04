@@ -13,14 +13,8 @@ while [[ "${CONFIRMATION_DIALOG}" == 'n' || "${CONFIRMATION_DIALOG}" == 'N' || (
                      |_|           (____/                      
 _______________________________________________________________
 "
-
-    HOST=' '
-    while [[ ! "${HOST}" =~ ^[[:alnum:]-]+$ ]]; do
-        read -p ' - Host: ' HOST
-        if [[ ! "${HOST}" =~ ^[[:alnum:]-]+$ ]]; then
-            echo -e 'Host must not have special characters!\n'
-        fi
-    done
+    read -p ' - User (default is user0): ' USER
+    USER="${USER:-user0}"
 
     PASSWORD=' '
     while [[ ${PASSWORD} != ${PASSWORD_CONFIRMATION} ]]; do
@@ -36,6 +30,9 @@ _______________________________________________________________
             PASSWORD_CONFIRMATION='that'
         fi
     done
+
+    read -p ' - Host (default is host0): ' HOST
+    HOST="${HOST:-host0}"
 
     read -p ' - Device name /dev/_ (default is nvme0n1): ' DEVICE
     DEVICE="/dev/${DEVICE:-nvme0n1}"
@@ -61,7 +58,7 @@ _______________________________________________________________
     fi
     SWAP_SIZE="${SWAP_SIZE_TEMP}"
 
-    read -p " - Partition ROOT size (default is '?' remaining disk size, type '+128G' to change it to something else): " ROOT_SIZE_TEMP
+    read -p " - Partition ROOT size (default is '?' for remaining disk size, type '+128G' to change it to something else): " ROOT_SIZE_TEMP
     ROOT_SIZE_TEMP="${ROOT_SIZE_TEMP:-?}"
     if [[ "${ROOT_SIZE_TEMP}" = $'?' ]]; then
         ROOT_SIZE_TEMP=' '
@@ -72,6 +69,7 @@ _______________________________________________________________
     STAGE_FILE="${STAGE_FILE:-https://distfiles.gentoo.org/releases/amd64/autobuilds/20240929T163611Z/stage3-amd64-openrc-20240929T163611Z.tar.xz}"
 
     echo -e "
+User: ${USER}
 Host: ${HOST}
 Device: ${DEVICE}
 Device separator: ${DEVICE_SEPARATOR}
@@ -83,10 +81,17 @@ Stage file: ${STAGE_FILE}
 Verify the setup details before moving on
 "
     read -p 'Are you sure you want to continue [Y/n]? ' CONFIRMATION_DIALOG
+
+    # checks that USER HOST DEVICE and STAGE FILE are not empty
+    if [[ -z "${USER}" || -z "${HOST}" || -z "${DEVICE}" || -z "${STAGE_FILE}" ]]; then
+        echo 'User, Host, Device and Stage file cannot be empty'
+        CONFIRMATION_DIALOG='n'
+    fi
 done
 
-export HOST
+export USER
 export PASSWORD
+export HOST
 export DEVICE
 export DEVICE_SEPARATOR
 export EFI_SIZE

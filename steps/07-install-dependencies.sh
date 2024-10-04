@@ -12,7 +12,6 @@ echo -e "
 __________________________________________________________________________________________________
 "
 # installs dependencies
-echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
 echo 'app-admin/doas persist' >>/etc/portage/package.use
 cat <<EOF >/etc/doas.conf
 # https://wiki.gentoo.org/wiki/Doas
@@ -24,17 +23,11 @@ chown -c root:root /etc/doas.conf
 emerge --ask=n \
    app-admin/doas \
    app-admin/eclean-kernel \
-   app-admin/stow \
-   app-admin/yadm \
    app-editors/neovim \
    app-misc/fastfetch \
    app-portage/gentoolkit \
-   app-shells/starship \
-   app-shells/zoxide \
    dev-vcs/git \
    net-misc/chrony \
    net-misc/keychain \
-   sys-apps/eza \
    sys-block/io-scheduler-udev-rules \
    sys-kernel/gentoo-kernel
-eselect news read >/dev/null 2>&1

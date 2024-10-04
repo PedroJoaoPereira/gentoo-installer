@@ -11,12 +11,6 @@ echo -e "
 |_|              |_|                                                       
 ___________________________________________________________________________
 "
-# TODO:
-# sets initramfs configuration
-mkdir -p /etc/dracut.conf.d
-cat <<EOF >/etc/dracut.conf.d/override.conf
-${THIS_DRACUT_CONF}
-EOF
 # installs firmware, hooks and bootloader
 echo 'sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE' >>/etc/portage/package.license
 echo 'sys-kernel/installkernel dracut grub' >>/etc/portage/package.use

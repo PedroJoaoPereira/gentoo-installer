@@ -17,12 +17,8 @@ mount ${DEVICE}${DEVICE_SEPARATOR}1 /efi
 # configures portage
 emerge-webrsync
 emerge --ask=n --sync --quiet
-
-# configures portage configuration
 emerge --oneshot --ask=n app-portage/cpuid2cpuflags
 sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\"/g" /etc/portage/make.conf
-
-# continues portage configuration
 emerge --ask=n --update --deep --newuse @world
 emerge --ask=n --depclean
 eselect news read >/dev/null 2>&1
