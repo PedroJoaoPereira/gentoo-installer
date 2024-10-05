@@ -14,12 +14,12 @@ ________________________________________________________________________________
 
 # creates root mount point
 mkdir -p /mnt/gentoo
-mount ${DEVICE}${DEVICE_SEPARATOR}3 /mnt/gentoo
+mount ${DEVICE}${DEVICE_SEPARATOR}3 /mnt/gentoo || exit 1
 cd /mnt/gentoo
 
 # downloads stage file
-wget ${STAGE_FILE}
-tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+wget ${STAGE_FILE} || exit 1
+tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner || exit 1
 
 # configures empty portage configuration
 rm -rf /mnt/gentoo/etc/portage/package.*

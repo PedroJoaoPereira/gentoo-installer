@@ -36,7 +36,7 @@ cat <<EOF >/etc/hosts
 EOF
 
 # sets users
-useradd -m -G users,wheel,audio,video,usb,plugdev -s /bin/bash ${USER}
+useradd -m -G users,wheel,audio,video,usb,plugdev -s /bin/bash ${USER} || exit 1
 chown -R -c ${USER}:${USER} /home/${USER}
 passwd <<EOF
 ${PASSWORD}

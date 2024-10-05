@@ -14,18 +14,18 @@ ________________________________________________________________________________
 
 # creates boot mount point
 mkdir -p /efi
-mount ${DEVICE}${DEVICE_SEPARATOR}1 /efi
+mount ${DEVICE}${DEVICE_SEPARATOR}1 /efi || exit 1
 
 # installs base system
-emerge-webrsync
-emerge --ask=n --sync --quiet
-emerge --oneshot --ask=n app-portage/cpuid2cpuflags
+emerge-webrsync || exit 1
+emerge --ask=n --sync --quiet || exit 1
+emerge --oneshot --ask=n app-portage/cpuid2cpuflags || exit 1
 sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\"/g" /etc/portage/make.conf
-emerge --ask=n --update --deep --newuse @world
+emerge --ask=n --update --deep --newuse @world || exit 1
 
 # configures system
 echo 'Europe/Lisbon' >/etc/timezone
-emerge --ask=n --config sys-libs/timezone-data
+emerge --ask=n --config sys-libs/timezone-data || exit 1
 sed -i 's/#en_US ISO-8859-1/en_US ISO-8859-1/g' /etc/locale.gen
 sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen
 locale-gen

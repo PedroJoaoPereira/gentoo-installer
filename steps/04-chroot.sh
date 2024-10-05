@@ -13,15 +13,15 @@ ______________________________________________________
 
 # mounts system
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
-mount --types proc /proc /mnt/gentoo/proc
-mount --rbind /sys /mnt/gentoo/sys
-mount --make-rslave /mnt/gentoo/sys
-mount --rbind /dev /mnt/gentoo/dev
-mount --make-rslave /mnt/gentoo/dev
-mount --bind /run /mnt/gentoo/run
-mount --make-slave /mnt/gentoo/run
+mount --types proc /proc /mnt/gentoo/proc || exit 1
+mount --rbind /sys /mnt/gentoo/sys || exit 1
+mount --make-rslave /mnt/gentoo/sys || exit 1
+mount --rbind /dev /mnt/gentoo/dev || exit 1
+mount --make-rslave /mnt/gentoo/dev || exit 1
+mount --bind /run /mnt/gentoo/run || exit 1
+mount --make-slave /mnt/gentoo/run || exit 1
 test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
-mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
+mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm || exit 1
 chmod 1777 /dev/shm /run/shm
 
 # creates chroot scripts
@@ -45,11 +45,11 @@ source /installation-scripts/07-installing-dependencies.sh
 source /installation-scripts/08-finishing-installation.sh
 [[ -f /installation-scripts/09-installing-extras.sh ]] && source /installation-scripts/09-installing-extras.sh
 
-eselect news read >/dev/null 2>&1
-emerge --ask=n --depclean
-eclean distfiles
-eclean packages
-eclean-kernel -n 2
+eselect news read >/dev/null 2>&1 || exit 1
+emerge --ask=n --depclean || exit 1
+eclean distfiles || exit 1
+eclean packages || exit 1
+eclean-kernel -n 2 || exit 1
 
 rm /stage3-*.tar.*
 rm -rf /installation-scripts

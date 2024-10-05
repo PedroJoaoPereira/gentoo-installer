@@ -14,6 +14,19 @@ ________________________________________________________________________________
 
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
+emerge --ask=n \
+  app-admin/doas \
+  app-admin/eclean-kernel \
+  app-editors/neovim \
+  app-misc/fastfetch \
+  app-portage/gentoolkit \
+  dev-vcs/git \
+  net-misc/chrony \
+  net-misc/keychain \
+  sys-block/io-scheduler-udev-rules \
+  sys-kernel/gentoo-kernel || exit 1
+
+# configures doas
 cat <<EOF >/etc/doas.conf
 # https://wiki.gentoo.org/wiki/Doas
 permit  persist :wheel
@@ -21,14 +34,3 @@ permit  nopass  :wheel as root  cmd shutdown
 permit  nopass  :wheel as root  cmd reboot
 EOF
 chown -c root:root /etc/doas.conf
-emerge --ask=n \
-   app-admin/doas \
-   app-admin/eclean-kernel \
-   app-editors/neovim \
-   app-misc/fastfetch \
-   app-portage/gentoolkit \
-   dev-vcs/git \
-   net-misc/chrony \
-   net-misc/keychain \
-   sys-block/io-scheduler-udev-rules \
-   sys-kernel/gentoo-kernel
