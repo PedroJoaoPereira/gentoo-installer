@@ -34,6 +34,6 @@ pacman -Sy git wget
 git clone https://github.com/pedrojoaopereira/gentoo-installer
 
 # executes installation script
-gentoo-installer/install.sh
+gentoo-installer/install.sh 2>&1 | tee ~/install.log
 ```
 
