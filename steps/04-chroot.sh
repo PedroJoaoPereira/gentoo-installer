@@ -2,13 +2,13 @@
 
 clear
 echo -e "
-       _                           
-      | |                     _    
-  ____| | _   ____ ___   ___ | |_  
- / ___) || \ / ___) _ \ / _ \|  _) 
-( (___| | | | |  | |_| | |_| | |__ 
- \____)_| |_|_|   \___/ \___/ \___)
-___________________________________
+  ______   __             _                           
+ / __   | / /            | |                     _    
+| | //| |/ /____ ___ ____| | _   ____ ___   ___ | |_  
+| |// | |___   _|___) ___) || \ / ___) _ \ / _ \|  _) 
+|  /__| |   | |    ( (___| | | | |  | |_| | |_| | |__ 
+ \_____/    |_|     \____)_| |_|_|   \___/ \___/ \___)
+______________________________________________________
 "
 
 # mounts system
@@ -26,12 +26,12 @@ chmod 1777 /dev/shm /run/shm
 
 # creates chroot scripts
 mkdir -p /mnt/gentoo/installation-scripts
-envsubst <"${STEPS_DIR}/05-install-base.sh" >"/mnt/gentoo/installation-scripts/05-install-base.sh"
-envsubst <"${STEPS_DIR}/06-prepare-kernel.sh" >"/mnt/gentoo/installation-scripts/06-prepare-kernel.sh"
-envsubst <"${STEPS_DIR}/07-install-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-install-dependencies.sh"
-envsubst <"${STEPS_DIR}/08-finish-installation.sh" >"/mnt/gentoo/installation-scripts/08-finish-installation.sh"
+envsubst <"${STEPS_DIR}/05-installing-base.sh" >"/mnt/gentoo/installation-scripts/05-installing-base.sh"
+envsubst <"${STEPS_DIR}/06-installing-bootloader.sh" >"/mnt/gentoo/installation-scripts/06-installing-bootloader.sh"
+envsubst <"${STEPS_DIR}/07-installing-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-installing-dependencies.sh"
+envsubst <"${STEPS_DIR}/08-finishing-installation.sh" >"/mnt/gentoo/installation-scripts/08-finishing-installation.sh"
 if [[ ! -z $1 ]]; then
-    envsubst <$1 >"/mnt/gentoo/installation-scripts/09-extra-installer.sh"
+  envsubst <$1 >"/mnt/gentoo/installation-scripts/09-installing-extras.sh"
 fi
 
 # chroots into system
@@ -39,11 +39,11 @@ chroot /mnt/gentoo /bin/bash <<EOF
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
-source /installation-scripts/05-install-base.sh
-source /installation-scripts/06-prepare-kernel.sh
-source /installation-scripts/07-install-dependencies.sh
-source /installation-scripts/08-finish-installation.sh
-[[ -f /installation-scripts/09-extra-installer.sh ]] && source /installation-scripts/09-extra-installer.sh
+source /installation-scripts/05-installing-base.sh
+source /installation-scripts/06-installing-bootloader.sh
+source /installation-scripts/07-installing-dependencies.sh
+source /installation-scripts/08-finishing-installation.sh
+[[ -f /installation-scripts/09-installing-extras.sh ]] && source /installation-scripts/09-installing-extras.sh
 
 eselect news read >/dev/null 2>&1
 emerge --ask=n --depclean

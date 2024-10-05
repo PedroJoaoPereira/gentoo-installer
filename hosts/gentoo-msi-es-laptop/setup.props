@@ -1,0 +1,6 @@
+user=chuck
+device=nvme0n1
+separator=p
+efi=+1G
+swap=+8G
+root=?

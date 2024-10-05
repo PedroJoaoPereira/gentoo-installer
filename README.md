@@ -22,13 +22,13 @@ loadkeys pt-latin9
 iwctl
 station wlan0 connect NETWORK_NAME
 PASSWORD
-EXIT
+exit
 
 # checks internet connectivity
 ping gentoo.org
 
 # installs required dependencies
-pacman -Sy git wget wipefs
+pacman -Sy git wget
 
 # clones this project
 git clone https://github.com/pedrojoaopereira/gentoo-installer
