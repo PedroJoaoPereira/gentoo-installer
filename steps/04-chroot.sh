@@ -10,6 +10,7 @@ echo -e "
  \____)_| |_|_|   \___/ \___/ \___)
 ___________________________________
 "
+
 # mounts system
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
@@ -41,7 +42,7 @@ source /installation-scripts/07-install-dependencies.sh
 source /installation-scripts/08-finish-installation.sh
 
 eselect news read >/dev/null 2>&1
-emerge --depclean
+emerge --ask=n --depclean
 eclean distfiles
 eclean packages
 eclean-kernel -n 2

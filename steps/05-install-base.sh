@@ -10,18 +10,17 @@ echo -e "
 |_|_| |_(___/ \___)_||_|_|_|  |____/ \_||_(___/ \____)
 ______________________________________________________
 "
+
 # creates boot mount point
 mkdir -p /efi
 mount ${DEVICE}${DEVICE_SEPARATOR}1 /efi
 
-# configures portage
+# installs base system
 emerge-webrsync
 emerge --ask=n --sync --quiet
 emerge --oneshot --ask=n app-portage/cpuid2cpuflags
 sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\"/g" /etc/portage/make.conf
 emerge --ask=n --update --deep --newuse @world
-emerge --ask=n --depclean
-eselect news read >/dev/null 2>&1
 
 # configures system
 echo 'Europe/Lisbon' >/etc/timezone

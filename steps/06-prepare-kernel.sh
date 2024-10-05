@@ -11,6 +11,7 @@ echo -e "
 |_|              |_|                                                       
 ___________________________________________________________________________
 "
+
 # installs firmware, hooks and bootloader
 echo 'sys-kernel/linux-firmware @BINARY-REDISTRIBUTABLE' >>/etc/portage/package.license
 echo 'sys-kernel/installkernel dracut grub' >>/etc/portage/package.use

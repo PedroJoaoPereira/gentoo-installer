@@ -11,6 +11,7 @@ echo -e "
                                           |_|                                                     
 __________________________________________________________________________________________________
 "
+
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
 cat <<EOF >/etc/doas.conf

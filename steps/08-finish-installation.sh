@@ -11,6 +11,7 @@ echo -e "
 |_|  |_|_| |_(___/|_| |_|  |_|_| |_(___/ \___)_||_|_|_|\_||_|\___)_|\___/|_| |_|
 ________________________________________________________________________________
 "
+
 # sets system
 rc-update add chronyd default
 sed -i 's/keymap="us"/keymap="pt-latin9"/g' /etc/conf.d/keymaps
@@ -47,6 +48,6 @@ ${PASSWORD}
 EOD
 passwd -dl root
 
-# sets ttys
+# removes useless ttys
 sed -i 's/^c[3-6]:/#\0/' /etc/inittab
 sed -i "s/^c1:12345:respawn:\/sbin\/agetty/\0 -a ${USER}/" /etc/inittab

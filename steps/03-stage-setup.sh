@@ -10,6 +10,7 @@ echo -e "
                (_____|                             |_|    
 __________________________________________________________
 "
+
 # creates root mount point
 mkdir -p /mnt/gentoo
 mount ${DEVICE}${DEVICE_SEPARATOR}3 /mnt/gentoo

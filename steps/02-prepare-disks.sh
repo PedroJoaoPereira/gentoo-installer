@@ -10,6 +10,11 @@ echo -e "
 |_|              |_|                       (_____|                           
 _____________________________________________________________________________
 "
+
+# removes partition and signatures from disk
+wipefs -a ${DEVICE}
+
+# partitions disk
 # a blank line will send a return to fdisk
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE}
     g  # create empty GPT partition table
@@ -47,6 +52,4 @@ mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1
 mkswap ${DEVICE}${DEVICE_SEPARATOR}2
 swapon ${DEVICE}${DEVICE_SEPARATOR}2
 # ext4 ROOT
-mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 <<EOD
-y
-EOD
+mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3
