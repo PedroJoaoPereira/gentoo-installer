@@ -12,7 +12,7 @@ export HOST_INSTALLER=${HOST_DIR}/installer.sh
 export HOST_SETUP=${HOST_DIR}/setup.props
 
 # runs installation
-if [[ ! -f ${HOST_INSTALLER} || ! -f ${HOST_SETUP} ]]; then
+if [[ ! -f ${HOST_SETUP} ]]; then
   source ${STEPS_DIR}/00-intro.sh
   source ${STEPS_DIR}/01-setup-system.sh
 else
@@ -20,4 +20,8 @@ else
 fi
 source ${STEPS_DIR}/02-prepare-disks.sh
 source ${STEPS_DIR}/03-stage-setup.sh
-source ${STEPS_DIR}/04-chroot.sh
+if [[ ! -f ${HOST_INSTALLER} ]]; then
+  source ${STEPS_DIR}/04-chroot.sh
+else
+  source ${STEPS_DIR}/04-chroot.sh ${HOST_INSTALLER}
+fi

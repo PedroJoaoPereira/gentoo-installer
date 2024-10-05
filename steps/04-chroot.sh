@@ -30,6 +30,9 @@ envsubst <"${STEPS_DIR}/05-install-base.sh" >"/mnt/gentoo/installation-scripts/0
 envsubst <"${STEPS_DIR}/06-prepare-kernel.sh" >"/mnt/gentoo/installation-scripts/06-prepare-kernel.sh"
 envsubst <"${STEPS_DIR}/07-install-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-install-dependencies.sh"
 envsubst <"${STEPS_DIR}/08-finish-installation.sh" >"/mnt/gentoo/installation-scripts/08-finish-installation.sh"
+if [[ ! -z $1 ]]; then
+    envsubst <$1 >"/mnt/gentoo/installation-scripts/09-extra-installer.sh"
+fi
 
 # chroots into system
 chroot /mnt/gentoo /bin/bash <<EOF
@@ -40,6 +43,7 @@ source /installation-scripts/05-install-base.sh
 source /installation-scripts/06-prepare-kernel.sh
 source /installation-scripts/07-install-dependencies.sh
 source /installation-scripts/08-finish-installation.sh
+[[ -f /installation-scripts/09-extra-installer.sh ]] && source /installation-scripts/09-extra-installer.sh
 
 eselect news read >/dev/null 2>&1
 emerge --ask=n --depclean
