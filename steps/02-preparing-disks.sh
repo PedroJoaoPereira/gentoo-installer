@@ -12,12 +12,9 @@ echo -e "
 ________________________________________________________________________________________________
 "
 
-# removes partition and signatures from disk
-wipefs -a ${DEVICE} || exit 1
-
 # partitions disk
 # a blank line will send a return to fdisk
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE} || exit 1
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE}
     g  # create empty GPT partition table
     n  # create EFI partition
     # choose default partition number
@@ -48,9 +45,11 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE} || exit 1
 EOF
 
 # fat32 BOOT
-mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1 || exit 1
+mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1
 # linux-swap SWAP
-mkswap ${DEVICE}${DEVICE_SEPARATOR}2 || exit 1
-swapon ${DEVICE}${DEVICE_SEPARATOR}2 || exit 1
+mkswap ${DEVICE}${DEVICE_SEPARATOR}2
+swapon ${DEVICE}${DEVICE_SEPARATOR}2
 # ext4 ROOT
-mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 || exit 1
+mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 <<EOF
+y
+EOF

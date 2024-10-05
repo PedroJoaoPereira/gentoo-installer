@@ -13,6 +13,7 @@ ________________________________________________________________________________
 "
 
 # installs dependencies
+echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
 echo 'app-admin/doas persist' >>/etc/portage/package.use
 emerge --ask=n \
   app-admin/doas \
@@ -20,9 +21,12 @@ emerge --ask=n \
   app-editors/neovim \
   app-misc/fastfetch \
   app-portage/gentoolkit \
+  app-shells/starship \
+  app-shells/zoxide \
   dev-vcs/git \
   net-misc/chrony \
   net-misc/keychain \
+  sys-apps/eza \
   sys-block/io-scheduler-udev-rules \
   sys-kernel/gentoo-kernel || exit 1
 
