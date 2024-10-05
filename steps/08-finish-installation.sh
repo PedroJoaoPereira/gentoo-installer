@@ -38,14 +38,14 @@ EOF
 # sets users
 useradd -m -G users,wheel,audio,video,usb,plugdev -s /bin/bash ${USER}
 chown -R -c ${USER}:${USER} /home/${USER}
-passwd <<EOD
+passwd <<EOF
 ${PASSWORD}
 ${PASSWORD}
-EOD
-passwd ${USER} <<EOD
+EOF
+passwd ${USER} <<EOF
 ${PASSWORD}
 ${PASSWORD}
-EOD
+EOF
 passwd -dl root
 
 # removes useless ttys

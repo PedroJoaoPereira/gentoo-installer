@@ -19,4 +19,3 @@ This is used to get a working barebones system on which to work on and customize
 "
 
 read -n 1 -s -p ' - Press any key to continue...'
-echo

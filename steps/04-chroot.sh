@@ -32,7 +32,7 @@ envsubst <"${STEPS_DIR}/07-install-dependencies.sh" >"/mnt/gentoo/installation-s
 envsubst <"${STEPS_DIR}/08-finish-installation.sh" >"/mnt/gentoo/installation-scripts/08-finish-installation.sh"
 
 # chroots into system
-chroot /mnt/gentoo /bin/bash <<END
+chroot /mnt/gentoo /bin/bash <<EOF
 source /etc/profile
 export PS1="(chroot) ${PS1}"
 
@@ -49,4 +49,4 @@ eclean-kernel -n 2
 
 rm /stage3-*.tar.*
 rm -rf /installation-scripts
-END
+EOF

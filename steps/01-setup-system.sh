@@ -11,18 +11,52 @@ echo -e "
 _______________________________________________________________
 "
 
+# reads from arguments file
+if [[ ! -z $1 ]]; then
+    source $1
+    host=$(basename $(dirname $1))
+fi
+
 # gets user input
-read -p ' - User: ' USER
+if [[ -z ${user} ]]; then
+    read -p ' - User: ' USER
+else
+    USER=${user}
+fi
 read -s -p ' - Password: ' PASSWORD
 echo ''
 read -s -p ' - Confirm password: ' PASSWORD_CONFIRMATION
 echo ''
-read -p ' - Host: ' HOST
-read -p ' - Device name /dev/_ (default is nvme0n1): ' DEVICE
-read -p ' - Device separator /dev/nvme0n1_1 (default is p, type "?" for an empty separator symbol): ' DEVICE_SEPARATOR
-read -p ' - EFI partition size (default is +1G, type "?" for remaining disk size): ' EFI_SIZE
-read -p ' - SWAP partition size (default is +4G, type "?" for remaining disk size): ' SWAP_SIZE
-read -p ' - ROOT partition size (default is "?" for remaining disk size, type "+128G" to change it to something else): ' ROOT_SIZE
+if [[ -z ${host} ]]; then
+    read -p ' - Host: ' HOST
+else
+    HOST=${host}
+fi
+if [[ -z ${device} ]]; then
+    read -p ' - Device name /dev/_ (default is nvme0n1): ' DEVICE
+else
+    DEVICE=${device}
+fi
+if [[ -z ${separator} ]]; then
+    read -p ' - Device separator /dev/nvme0n1_1 (default is p, type "?" for an empty separator symbol): ' DEVICE_SEPARATOR
+else
+    DEVICE_SEPARATOR=${separator}
+fi
+if [[ -z ${efi} ]]; then
+    read -p ' - EFI partition size (default is +1G, type "?" for remaining disk size): ' EFI_SIZE
+else
+    EFI_SIZE=${efi}
+fi
+if [[ -z ${swap} ]]; then
+    read -p ' - SWAP partition size (default is +4G, type "?" for remaining disk size): ' SWAP_SIZE
+else
+    SWAP_SIZE=${swap}
+fi
+if [[ -z ${root} ]]; then
+    read -p ' - ROOT partition size (default is "?" for remaining disk size, type "+128G" to change it to something else): ' ROOT_SIZE
+else
+    ROOT_SIZE=${root}
+fi
 
 # sets default values
 DEVICE="/dev/${DEVICE:-nvme0n1}"

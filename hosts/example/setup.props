@@ -1,0 +1,6 @@
+user=userName
+device=deviceName
+separator=?
+efi=+512M
+swap=+1G
+root=+64G
