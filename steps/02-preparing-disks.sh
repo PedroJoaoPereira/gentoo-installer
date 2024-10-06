@@ -40,8 +40,6 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE}
     # choose default partition number
     23 # Linux root (x86-64) type
     w  # write changes to disk
-    p  # print disk partition table
-    q  # quit
 EOF
 
 # fat32 BOOT
@@ -50,6 +48,4 @@ mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1
 mkswap ${DEVICE}${DEVICE_SEPARATOR}2
 swapon ${DEVICE}${DEVICE_SEPARATOR}2
 # ext4 ROOT
-mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 <<EOF
-y
-EOF
+mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3

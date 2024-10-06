@@ -22,7 +22,7 @@ mount --bind /run /mnt/gentoo/run
 mount --make-slave /mnt/gentoo/run
 test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
 mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
-chmod 1777 /dev/shm /run/shm
+chmod 1777 /dev/shm
 
 # creates chroot scripts
 mkdir -p /mnt/gentoo/installation-scripts
@@ -30,8 +30,8 @@ envsubst <"${STEPS_DIR}/05-installing-base.sh" >"/mnt/gentoo/installation-script
 envsubst <"${STEPS_DIR}/06-installing-bootloader.sh" >"/mnt/gentoo/installation-scripts/06-installing-bootloader.sh"
 envsubst <"${STEPS_DIR}/07-installing-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-installing-dependencies.sh"
 envsubst <"${STEPS_DIR}/08-finishing-installation.sh" >"/mnt/gentoo/installation-scripts/08-finishing-installation.sh"
-if [[ ! -z $1 ]]; then
-  envsubst <$1 >"/mnt/gentoo/installation-scripts/09-installing-extras.sh"
+if [[ -f "${STEPS_DIR}/09-installing-extras.sh" ]]; then
+  envsubst <"${STEPS_DIR}/09-installing-extras.sh" >"/mnt/gentoo/installation-scripts/09-installing-extras.sh"
 fi
 
 # chroots into system

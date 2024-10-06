@@ -20,3 +20,4 @@ grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id='Gentoo Gr
 sed -i 's/#GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/g' /etc/default/grub
 sed -i 's/#GRUB_CMDLINE_LINUX_DEFAULT=""/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/g' /etc/default/grub
 sed -i 's/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/g' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
