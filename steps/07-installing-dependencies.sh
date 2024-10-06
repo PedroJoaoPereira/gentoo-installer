@@ -14,8 +14,8 @@ ________________________________________________________________________________
 
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
+# app-admin/doas \
 emerge --ask=n \
-  app-admin/doas \
   app-admin/eclean-kernel \
   app-editors/neovim \
   app-misc/fastfetch \
