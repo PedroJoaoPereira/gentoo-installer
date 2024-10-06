@@ -12,19 +12,22 @@ echo -e "
 ___________________________________________________________________________________________________________________________________
 "
 
+# installs system dependencies
+emerge --ask=n \
+  net-misc/chrony \
+  net-misc/networkmanager \
+  sys-block/io-scheduler-udev-rules \
+  sys-kernel/gentoo-kernel || exit 1
+
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
-# app-admin/doas \
 emerge --ask=n \
+  app-admin/doas \
   app-admin/eclean-kernel \
   app-editors/neovim \
   app-misc/fastfetch \
   app-portage/gentoolkit \
-  net-misc/chrony \
-  net-misc/keychain \
-  net-misc/networkmanager \
-  sys-block/io-scheduler-udev-rules \
-  sys-kernel/gentoo-kernel || exit 1
+  net-misc/keychain || exit 1
 
 # configures doas
 cat <<EOF >/etc/doas.conf
