@@ -15,7 +15,7 @@ ________________________________________________________________________________
 # reads from arguments file
 if [[ ! -z $1 ]]; then
     source $1
-    host=$(basename $(dirname $1))
+    host=$(basename $1 | sed 's/\.props//')
 fi
 
 # gets user input
@@ -58,6 +58,16 @@ if [[ -z ${root} ]]; then
 else
     ROOT_SIZE=${root}
 fi
+if [[ -z ${timezone} ]]; then
+    read -p ' - Timezone (default is Europe/Lisbon): ' TIMEZONE
+else
+    TIMEZONE=${timezone}
+fi
+if [[ -z ${keymap} ]]; then
+    read -p ' - Keymap (default is pt-latin9): ' KEYMAP
+else
+    KEYMAP=${keymap}
+fi
 
 # sets default values
 DEVICE="/dev/${DEVICE:-nvme0n1}"
@@ -65,6 +75,9 @@ DEVICE_SEPARATOR="${DEVICE_SEPARATOR:-p}"
 EFI_SIZE="${EFI_SIZE:-+1G}"
 SWAP_SIZE="${SWAP_SIZE:-+8G}"
 ROOT_SIZE="${ROOT_SIZE:-?}"
+STAGE_FILE=$(. ${SCRIPTS_DIR}/get-current-stage3-url.sh)
+TIMEZONE="${TIMEZONE:-Europe/Lisbon}"
+KEYMAP="${KEYMAP:-pt-latin9}"
 
 # checks if password and password confirmation match
 if [[ ${PASSWORD} != ${PASSWORD_CONFIRMATION} ]]; then
@@ -86,9 +99,6 @@ if [[ "${ROOT_SIZE}" = $'?' ]]; then
     ROOT_SIZE=' '
 fi
 
-# gets current stage3 file URL
-STAGE_FILE=$(. ${SCRIPTS_DIR}/get-current-stage3-url.sh)
-
 # prints out user choices
 echo -e "
 Confirm your choices:
@@ -102,6 +112,8 @@ EFI partition size: ${EFI_SIZE}
 SWAP partition size: ${SWAP_SIZE}
 ROOT partition size: ${ROOT_SIZE}
 Stage file: ${STAGE_FILE}
+Timezone: ${TIMEZONE}
+Keymap: ${KEYMAP}
 "
 
 # confirms user choices
@@ -112,11 +124,11 @@ if [[ "${CONFIRMATION_DIALOG}" == 'n' || "${CONFIRMATION_DIALOG}" == 'N' ]]; the
 fi
 
 # checks if any empty variable
-if [[ -z ${USER} || -z ${PASSWORD} || -z ${HOST} || -z ${STAGE_FILE} ]]; then
+if [[ -z ${USER} || -z ${PASSWORD} || -z ${HOST} || -z ${STAGE_FILE} || -z ${TIMEZONE} || -z ${KEYMAP} ]]; then
     echo 'Some variables are empty aborting'
     echo ''
     exit 1
 fi
 
 # exports variables
-export USER PASSWORD HOST DEVICE DEVICE_SEPARATOR EFI_SIZE SWAP_SIZE ROOT_SIZE STAGE_FILE
+export USER PASSWORD HOST DEVICE DEVICE_SEPARATOR EFI_SIZE SWAP_SIZE ROOT_SIZE STAGE_FILE TIMEZONE KEYMAP

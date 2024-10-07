@@ -31,7 +31,7 @@ touch /mnt/gentoo/etc/portage/package.mask
 touch /mnt/gentoo/etc/portage/package.use
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf
 # global USE flags
-USE="elogind networkmanager"
+USE="dbus elogind networkmanager"
 
 # CPU settings
 CPU_FLAGS_X86=""
@@ -55,15 +55,4 @@ FFLAGS="\${COMMON_FLAGS}"
 GRUB_PLATFORMS="efi-64"
 # default build output language
 LC_MESSAGES=C.utf8
-# closest Gentoo mirrors
-GENTOO_MIRRORS="https://mirrors.ptisp.pt/gentoo/ \\
-    http://mirrors.ptisp.pt/gentoo/ \\
-    https://ftp.rnl.tecnico.ulisboa.pt/pub/gentoo/gentoo-distfiles/ \\
-    http://ftp.rnl.tecnico.ulisboa.pt/pub/gentoo/gentoo-distfiles/ \\
-    ftp://ftp.rnl.tecnico.ulisboa.pt/pub/gentoo/gentoo-distfiles/ \\
-    rsync://ftp.rnl.tecnico.ulisboa.pt/pub/gentoo/gentoo-distfiles/ \\
-    http://ftp.dei.uc.pt/pub/linux/gentoo/ \\
-    https://repo.ifca.es/gentoo-distfiles \\
-    rsync://repo.ifca.es/gentoo-distfiles \\
-    ftp://repo.ifca.es/gentoo-distfiles"
 EOF

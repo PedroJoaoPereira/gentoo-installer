@@ -3,4 +3,6 @@ device=nvme0n1
 separator=p
 efi=+1G
 swap=+8G
-root=?
+root=+128G
+timezone=Europe/Lisbon
+keymap=pt-latin9

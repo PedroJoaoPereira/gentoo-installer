@@ -4,3 +4,5 @@ separator=?
 efi=+512M
 swap=+1G
 root=+64G
+timezone=Europe/Lisbon
+keymap=pt-latin9

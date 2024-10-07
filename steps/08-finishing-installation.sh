@@ -16,7 +16,7 @@ ________________________________________________________________________________
 rc-update add elogind boot
 rc-update add chronyd default
 rc-update add NetworkManager default
-sed -i 's/keymap="us"/keymap="pt-latin9"/g' /etc/conf.d/keymaps
+sed -i "s/keymap=\"us\"/keymap=\"${KEYMAP}\"/g" /etc/conf.d/keymaps
 
 # sets mount points
 cat <<EOF >/etc/fstab

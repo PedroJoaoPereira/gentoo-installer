@@ -24,7 +24,7 @@ sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\
 emerge --ask=n --update --deep --newuse @world || exit 1
 
 # configures system
-echo 'Europe/Lisbon' >/etc/timezone
+echo "${TIMEZONE}" >/etc/timezone
 emerge --ask=n --config sys-libs/timezone-data
 sed -i 's/#en_US ISO-8859-1/en_US ISO-8859-1/g' /etc/locale.gen
 sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/g' /etc/locale.gen

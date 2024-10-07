@@ -7,7 +7,7 @@ export SCRIPTS_DIR=${SCRIPT_ROOT_DIR}/scripts
 export STEPS_DIR=${SCRIPT_ROOT_DIR}/steps
 
 # gets host setup file, if it exists
-export HOST_SETUP=${HOSTS_DIR}/$1/setup.props
+export HOST_SETUP=${HOSTS_DIR}/$1.props
 
 # runs installation
 if [[ ! -f ${HOST_SETUP} ]]; then
@@ -15,7 +15,6 @@ if [[ ! -f ${HOST_SETUP} ]]; then
   source ${STEPS_DIR}/01-configuring-system.sh
 else
   source ${STEPS_DIR}/01-configuring-system.sh ${HOST_SETUP}
-  source ${SCRIPTS_DIR}/get-installer.sh
 fi
 source ${STEPS_DIR}/02-preparing-disks.sh
 source ${STEPS_DIR}/03-installing-stage.sh
