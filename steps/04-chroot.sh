@@ -37,7 +37,7 @@ fi
 # chroots into system
 chroot /mnt/gentoo /bin/bash <<EOF
 source /etc/profile
-export PS1="(chroot) ${PS1}"
+export PS1="(chroot) \${PS1}"
 
 source /installation-scripts/05-installing-base.sh
 source /installation-scripts/06-installing-bootloader.sh

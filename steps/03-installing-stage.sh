@@ -31,7 +31,7 @@ touch /mnt/gentoo/etc/portage/package.mask
 touch /mnt/gentoo/etc/portage/package.use
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf
 # global USE flags
-USE="dbus networkmanager"
+USE="elogind networkmanager"
 
 # CPU settings
 CPU_FLAGS_X86=""
