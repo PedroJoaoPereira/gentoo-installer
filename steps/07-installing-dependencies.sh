@@ -19,17 +19,20 @@ emerge --ask=n \
   sys-block/io-scheduler-udev-rules \
   sys-kernel/gentoo-kernel || exit 1
 
-# installs dependencies
-echo 'app-admin/doas persist' >>/etc/portage/package.use
+# installs gentoo tools
 emerge --ask=n \
-  app-admin/doas \
   app-admin/eclean-kernel \
+  app-portage/gentoolkit || exit 1
+
+# installs utils
+emerge --ask=n \
   app-editors/neovim \
   app-misc/fastfetch \
-  app-portage/gentoolkit \
   net-misc/keychain || exit 1
 
-# configures doas
+# installs doas
+echo 'app-admin/doas persist' >>/etc/portage/package.use
+emerge --ask=n app-admin/doas || exit 1
 cat <<EOF >/etc/doas.conf
 # https://wiki.gentoo.org/wiki/Doas
 permit  persist :wheel
