@@ -14,12 +14,7 @@ ________________________________________________________________________________
 
 # installs dependencies
 echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
-echo 'app-admin/doas persist' >>/etc/portage/package.use
-
-max_attempts=3
-attempt_num=1
-until emerge --ask=n \
-  app-admin/doas \
+emerge --ask=n \
   app-admin/eclean-kernel \
   app-admin/yadm \
   app-editors/neovim \
@@ -33,17 +28,11 @@ until emerge --ask=n \
   sys-apps/eza \
   net-misc/networkmanager \
   sys-block/io-scheduler-udev-rules \
-  sys-kernel/gentoo-kernel; do
-  if [ ${attempt_num} -eq ${max_attempts} ]; then
-    echo "Attempt ${attempt_num} failed! No more attempts left!"
-    exit 1
-  fi
-  echo "Attempt ${attempt_num} failed! Trying again in 5 seconds..."
-  attempt_num=$((attempt_num + 1))
-  sleep 5
-done
+  sys-kernel/gentoo-kernel || exit 1
 
-# configures doas
+# installs doas
+echo 'app-admin/doas persist' >>/etc/portage/package.use
+emerge --ask=n app-admin/doas || exit 1
 cat <<EOF >/etc/doas.conf
 # https://wiki.gentoo.org/wiki/Doas
 permit  persist :wheel
