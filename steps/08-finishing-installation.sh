@@ -48,7 +48,6 @@ passwd ${USER} <<EOF
 ${PASSWORD}
 ${PASSWORD}
 EOF
-passwd -dl root
 
 # removes useless ttys
 sed -i 's/^c[3-6]:/#\0/' /etc/inittab

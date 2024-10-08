@@ -10,6 +10,26 @@
 # ${THIS_DRACUT_CONF}
 # EOF
 
+# installs doas
+echo 'app-admin/doas persist' >>/etc/portage/package.use
+n=0
+until [ "$n" -ge 5 ]; do
+  emerge --ask=n app-admin/doas && break
+  n=$((n + 1))
+  sleep 15
+  echo "Retrying $n of 5"
+done
+cat <<EOF >/etc/doas.conf
+# https://wiki.gentoo.org/wiki/Doas
+permit  persist :wheel
+permit  nopass  :wheel as root  cmd shutdown
+permit  nopass  :wheel as root  cmd reboot
+EOF
+chown -c root:root /etc/doas.conf
+passwd -dl root
+
+# ------
+
 # live RAM
 tmpfs /tmp tmpfs size=16G,noatime,nodev,nosuid 0 0
 tmpfs /var/tmp tmpfs size=1G,noatime,nodev,nosuid 0 0
