@@ -13,19 +13,14 @@ ________________________________________________________________________________
 "
 
 # installs dependencies
-echo 'app-shells/zoxide ~amd64' >>/etc/portage/package.accept_keywords
 emerge --ask=n \
   app-admin/eclean-kernel \
   app-admin/yadm \
   app-editors/neovim \
   app-misc/fastfetch \
   app-portage/gentoolkit \
-  app-shells/starship \
-  app-shells/zoxide \
   dev-vcs/git \
   net-misc/chrony \
-  net-misc/keychain \
-  sys-apps/eza \
   net-misc/networkmanager \
   sys-block/io-scheduler-udev-rules \
   sys-kernel/gentoo-kernel || exit 1
