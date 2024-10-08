@@ -13,9 +13,7 @@ ________________________________________________________________________________
 "
 
 # installs dependencies
-echo 'app-admin/doas persist' >>/etc/portage/package.use
 emerge --ask=n \
-  app-admin/doas \
   app-admin/eclean-kernel \
   app-admin/yadm \
   app-editors/neovim \
@@ -27,7 +25,15 @@ emerge --ask=n \
   sys-block/io-scheduler-udev-rules \
   sys-kernel/gentoo-kernel || exit 1
 
-# configures doas
+# installs doas
+echo 'app-admin/doas persist' >>/etc/portage/package.use
+n=0
+until [ "$n" -ge 5 ]; do
+  emerge --ask=n app-admin/doas && break
+  n=$((n + 1))
+  sleep 15
+  echo "Retrying $n of 5"
+done
 cat <<EOF >/etc/doas.conf
 # https://wiki.gentoo.org/wiki/Doas
 permit  persist :wheel
