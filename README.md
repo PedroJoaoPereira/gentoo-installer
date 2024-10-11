@@ -13,7 +13,7 @@ Any contribution either in the form of issues discovering, pull requests or idea
 ## Install
 
 ```bash
-source <(curl -s https://raw.githubusercontent.com/PedroJoaoPereira/gentoo-installer/refs/heads/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/PedroJoaoPereira/gentoo-installer/refs/heads/main/install.sh)
 ```
 
 From an Arch linux installation ISO:
