@@ -69,13 +69,24 @@ else
     KEYMAP=${keymap}
 fi
 
+function get-current-stage3-url() {
+    # gets current stage3 metadata
+    metadata=$(wget -qO- https://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-openrc.txt)
+    # gets current stage3 file name
+    metadata=$(echo $metadata | grep -oE '[0-9]*T[0-9]*Z/stage3-amd64-openrc-[0-9]*T[0-9]*Z.tar.xz')
+    # gets current stage3 file URL
+    metadata="https://distfiles.gentoo.org/releases/amd64/autobuilds/${metadata}"
+    # prints out current stage3 file URL
+    echo $metadata
+}
+
 # sets default values
 DEVICE="/dev/${DEVICE:-nvme0n1}"
 DEVICE_SEPARATOR="${DEVICE_SEPARATOR:-p}"
 EFI_SIZE="${EFI_SIZE:-+1G}"
 SWAP_SIZE="${SWAP_SIZE:-+8G}"
 ROOT_SIZE="${ROOT_SIZE:-?}"
-STAGE_FILE=$(. ${SCRIPTS_DIR}/get-current-stage3-url.sh)
+STAGE_FILE=$(get-current-stage3-url)
 TIMEZONE="${TIMEZONE:-Europe/Lisbon}"
 KEYMAP="${KEYMAP:-pt-latin9}"
 
