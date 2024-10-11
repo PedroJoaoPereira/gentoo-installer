@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo hello
+
 # gets this script directory for relative imports
 export SCRIPT_ROOT_DIR=$(dirname $(readlink -f $0))
 export HOSTS_DIR=${SCRIPT_ROOT_DIR}/hosts
