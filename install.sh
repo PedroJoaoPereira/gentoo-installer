@@ -1,6 +1,55 @@
 #!/bin/bash
 
-function intro() {
+######################################################################
+################                hosts                 ################
+######################################################################
+function example() {
+  user=userName
+  device=deviceName
+  separator=?
+  efi=+512M
+  swap=+1G
+  root=+64G
+  timezone=Europe/Lisbon
+  keymap=pt-latin9
+}
+function gentoo-laptop-msi-es() {
+  user=chuck
+  device=nvme0n1
+  separator=p
+  efi=+1G
+  swap=+8G
+  root=+128G
+  timezone=Europe/Lisbon
+  keymap=pt-latin9
+}
+
+######################################################################
+################              functions               ################
+######################################################################
+function check-and-install-dependency() {
+  # checks if command argument is installed
+  if ! command -v $1 &>/dev/null; then
+    # installs command argument
+    apt install $1 -y
+  fi
+}
+
+function get_current_stage3_url() {
+  # gets current stage3 metadata
+  metadata=$(wget -qO- https://distfiles.gentoo.org/releases/amd64/autobuilds/latest-stage3-amd64-openrc.txt)
+  # gets current stage3 file name
+  metadata=$(echo $metadata | grep -oE '[0-9]*T[0-9]*Z/stage3-amd64-openrc-[0-9]*T[0-9]*Z.tar.xz')
+  # gets current stage3 file URL
+  metadata="https://distfiles.gentoo.org/releases/amd64/autobuilds/${metadata}"
+  # prints out current stage3 file URL
+  echo $metadata
+}
+
+######################################################################
+################                steps                 ################
+######################################################################
+function 00-intro() {
   clear
   echo -e "
 
@@ -22,7 +71,7 @@ This is used to get a working barebones system on which to work on and customize
   read -n 1 -s -p ' - Press any key to continue...'
 }
 
-function configure_system() {
+function 01-configure-system() {
   clear
   echo -e "
   ______  __                      ___ _                   _                                                
@@ -34,12 +83,6 @@ function configure_system() {
                                        (_____|                   (_____|       (____/                      
 ___________________________________________________________________________________________________________
 "
-
-  # reads from arguments file
-  if [[ ! -z $1 ]]; then
-    source $1
-    host=$(basename $1 | sed 's/\.props//')
-  fi
 
   # gets user input
   if [[ -z ${user} ]]; then
@@ -98,7 +141,7 @@ ________________________________________________________________________________
   EFI_SIZE="${EFI_SIZE:-+1G}"
   SWAP_SIZE="${SWAP_SIZE:-+8G}"
   ROOT_SIZE="${ROOT_SIZE:-?}"
-  STAGE_FILE=$(. ${SCRIPTS_DIR}/get-current-stage3-url.sh)
+  STAGE_FILE=$(get_current_stage3_url)
   TIMEZONE="${TIMEZONE:-Europe/Lisbon}"
   KEYMAP="${KEYMAP:-pt-latin9}"
 
@@ -157,11 +200,151 @@ Keymap: ${KEYMAP}
   export USER PASSWORD HOST DEVICE DEVICE_SEPARATOR EFI_SIZE SWAP_SIZE ROOT_SIZE STAGE_FILE TIMEZONE KEYMAP
 }
 
-function main() {
-  intro
-  configure_system
+function 02-prepare-disks() {
+  clear
+  echo -e "
+  ______ ______                                        _                    _ _      _          
+ / __   (_____ \                                      (_)                  | (_)    | |         
+| | //| | ____) )__ ____   ____ ____ ____   ____  ____ _ ____   ____ ___ _ | |_  ___| |  _  ___ 
+| |// | |/_____(___)  _ \ / ___) _  )  _ \ / _  |/ ___) |  _ \ / _  (___) || | |/___) | / )/___)
+|  /__| |_______   | | | | |  ( (/ /| | | ( ( | | |   | | | | ( ( | |  ( (_| | |___ | |< (|___ |
+ \_____/(_______)  | ||_/|_|   \____) ||_/ \_||_|_|   |_|_| |_|\_|| |   \____|_(___/|_| \_|___/ 
+                   |_|              |_|                       (_____|                           
+________________________________________________________________________________________________
+"
 
-  echo $USER
+  # partitions disk
+  # a blank line will send a return to fdisk
+  sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<EOF | fdisk ${DEVICE}
+    g  # create empty GPT partition table
+    n  # create EFI partition
+    # choose default partition number
+    # choose default sector number
+    ${EFI_SIZE}
+    y  # remove signature if it exists
+    t  # create EFI partition type
+    1  # EFI system type
+    n  # create SWAP partition
+    # choose default partition number
+    # choose default sector number
+    ${SWAP_SIZE}
+    y  # remove signature if it exists
+    t  # create SWAP partition type
+    # choose default partition number
+    19 # Linux swap type
+    n  # create ROOT partition
+    # choose default partition number
+    # choose default sector number
+    ${ROOT_SIZE}
+    y  # remove signature if it exists
+    t  # create ROOT partition type
+    # choose default partition number
+    23 # Linux root (x86-64) type
+    w  # write changes to disk
+EOF
+
+  # fat32 BOOT
+  mkfs.vfat -F 32 ${DEVICE}${DEVICE_SEPARATOR}1
+  # linux-swap SWAP
+  mkswap ${DEVICE}${DEVICE_SEPARATOR}2
+  swapon ${DEVICE}${DEVICE_SEPARATOR}2
+  # ext4 ROOT
+  mkfs.ext4 ${DEVICE}${DEVICE_SEPARATOR}3 <<EOF
+y
+EOF
 }
 
-main
+function 03-install-stage() {
+  clear
+  echo -e "
+  ______ ________   _                      _ _ _                                           
+ / __   (_______/  (_)           _        | | (_)                    _                     
+| | //| |  ____ ___ _ ____   ___| |_  ____| | |_ ____   ____ ___ ___| |_  ____  ____  ____ 
+| |// | | (___ (___) |  _ \ /___)  _)/ _  | | | |  _ \ / _  (___)___)  _)/ _  |/ _  |/ _  )
+|  /__| |_____) )  | | | | |___ | |_( ( | | | | | | | ( ( | |  |___ | |_( ( | ( ( | ( (/ / 
+ \_____/(______/   |_|_| |_(___/ \___)_||_|_|_|_|_| |_|\_|| |  (___/ \___)_||_|\_|| |\____)
+                                                      (_____|                 (_____|      
+___________________________________________________________________________________________
+"
+
+  # creates root mount point
+  mkdir -p /mnt/gentoo
+  mount ${DEVICE}${DEVICE_SEPARATOR}3 /mnt/gentoo
+  cd /mnt/gentoo
+
+  # downloads stage file
+  wget ${STAGE_FILE} || exit 1
+  tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+
+  # configures empty portage configuration
+  rm -rf /mnt/gentoo/etc/portage/package.*
+  mkdir -p /mnt/gentoo/etc/portage/env
+  touch /mnt/gentoo/etc/portage/package.accept_keywords
+  touch /mnt/gentoo/etc/portage/package.env
+  touch /mnt/gentoo/etc/portage/package.license
+  touch /mnt/gentoo/etc/portage/package.mask
+  touch /mnt/gentoo/etc/portage/package.use
+  cat <<EOF >/mnt/gentoo/etc/portage/make.conf
+# global USE flags
+USE="dbus elogind networkmanager"
+
+# CPU settings
+CPU_FLAGS_X86=""
+# GPU settings
+VIDEO_CARDS=""
+# Input settings
+INPUT_DEVICES=""
+
+# portage default options
+#MAKEOPTS="-jXX -lYY"
+EMERGE_DEFAULT_OPTS="--ask --verbose --quiet-build"
+
+# compiler settings
+COMMON_FLAGS="-march=native -O2 -pipe"
+CFLAGS="\${COMMON_FLAGS}"
+CXXFLAGS="\${COMMON_FLAGS}"
+FCFLAGS="\${COMMON_FLAGS}"
+FFLAGS="\${COMMON_FLAGS}"
+
+# GRUB EFI settings
+GRUB_PLATFORMS="efi-64"
+# default build output language
+LC_MESSAGES=C.utf8
+EOF
+}
+
+function 04-chroot() {
+  echo ola
+}
+
+######################################################################
+################                script                ################
+######################################################################
+# sets bash options
+set -o errexit
+set -o errtrace
+set -o pipefail
+
+function main() {
+  # run always as root
+  # sudo su
+  # validate dependencies and installs them if not present
+  check-and-install-dependency wget
+
+  # checks if argument is passed
+  is_template_host=false
+  if [[ ! -z $1 ]]; then
+    is_template_host=true
+  fi
+
+  # runs installation steps
+  [[ ${is_template_host} == false ]] && 00-intro
+  [[ ${is_template_host} == true ]] && $1 && host=$1
+  01-configure-system
+  02-prepare-disks
+  03-install-stage
+  04-chroot
+}
+
+# runs script with inherited arguments
+main "$@"
