@@ -12,12 +12,6 @@ echo -e "
 ____________________________________________________________________________________________________________________
 "
 
-# sets system
-rc-update add elogind boot
-rc-update add chronyd default
-rc-update add NetworkManager default
-sed -i "s/keymap=\"us\"/keymap=\"${KEYMAP}\"/g" /etc/conf.d/keymaps
-
 # sets mount points
 cat <<EOF >/etc/fstab
 # <fs> <mountpoint> <type> <opts> <dump> <pass>
@@ -28,6 +22,12 @@ ${DEVICE}${DEVICE_SEPARATOR}2 none swap sw 0 0
 # root partition
 ${DEVICE}${DEVICE_SEPARATOR}3 / ext4 defaults,noatime 0 1
 EOF
+
+# sets system
+sed -i "s/keymap=\"us\"/keymap=\"${KEYMAP}\"/g" /etc/conf.d/keymaps
+rc-update add elogind boot
+rc-update add chronyd default
+rc-update add NetworkManager default
 
 # sets local network
 echo ${HOST} >/etc/hostname

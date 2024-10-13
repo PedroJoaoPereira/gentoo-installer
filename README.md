@@ -15,11 +15,11 @@ Any contribution either in the form of issues discovering, pull requests or idea
 To install, run the following command in a live `debian` base ISO such as Ubuntu:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/PedroJoaoPereira/gentoo-installer/refs/heads/main/web-install.sh)
+bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh)
 ```
 
 To install a templated setup, run the following command:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/PedroJoaoPereira/gentoo-installer/refs/heads/main/web-install.sh) gentoo-laptop-msi-es
+bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh) gentoo-laptop-msi-es
 ```
