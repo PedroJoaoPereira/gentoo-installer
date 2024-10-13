@@ -27,18 +27,18 @@ chmod 1777 /dev/shm /run/shm
 # creates chroot scripts
 mkdir -p /mnt/gentoo/installation-scripts
 envsubst <"${STEPS_DIR}/05-installing-base.sh" >"/mnt/gentoo/installation-scripts/05-installing-base.sh"
-envsubst <"${STEPS_DIR}/06-installing-bootloader.sh" >"/mnt/gentoo/installation-scripts/06-installing-bootloader.sh"
-envsubst <"${STEPS_DIR}/07-installing-dependencies.sh" >"/mnt/gentoo/installation-scripts/07-installing-dependencies.sh"
-envsubst <"${STEPS_DIR}/08-finishing-installation.sh" >"/mnt/gentoo/installation-scripts/08-finishing-installation.sh"
+envsubst <"${STEPS_DIR}/06-installing-kernel.sh" >"/mnt/gentoo/installation-scripts/06-installing-kernel.sh"
+envsubst <"${STEPS_DIR}/07-configuring-system.sh" >"/mnt/gentoo/installation-scripts/07-configuring-system.sh"
+envsubst <"${STEPS_DIR}/08-installing-dependencies.sh" >"/mnt/gentoo/installation-scripts/08-installing-dependencies.sh"
 
 # chroots into system
 chroot /mnt/gentoo /bin/bash <<EOF
 source /etc/profile && export PS1="(chroot) \${PS1}"
 
 source /installation-scripts/05-installing-base.sh
-source /installation-scripts/06-installing-bootloader.sh
-source /installation-scripts/07-installing-dependencies.sh
-source /installation-scripts/08-finishing-installation.sh
+source /installation-scripts/06-installing-kernel.sh
+source /installation-scripts/07-configuring-system.sh
+source /installation-scripts/08-installing-dependencies.sh
 
 eselect news read >/dev/null 2>&1
 emerge --ask=n --depclean

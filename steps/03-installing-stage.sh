@@ -27,7 +27,7 @@ touch /mnt/gentoo/etc/portage/package.license
 touch /mnt/gentoo/etc/portage/package.use
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf
 # global USE flags
-USE="dbus elogind networkmanager"
+USE=""
 
 # CPU settings
 CPU_FLAGS_X86=""
