@@ -23,7 +23,6 @@ tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # configures empty portage configuration
 rm -rf /mnt/gentoo/etc/portage/package.*
-touch /mnt/gentoo/etc/portage/package.accept_keywords
 touch /mnt/gentoo/etc/portage/package.license
 touch /mnt/gentoo/etc/portage/package.use
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf

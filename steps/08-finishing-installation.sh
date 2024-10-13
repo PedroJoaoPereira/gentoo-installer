@@ -23,7 +23,7 @@ ${DEVICE}${DEVICE_SEPARATOR}2 none swap sw 0 0
 ${DEVICE}${DEVICE_SEPARATOR}3 / ext4 defaults,noatime 0 1
 EOF
 
-# sets system
+# sets services
 sed -i "s/keymap=\"us\"/keymap=\"${KEYMAP}\"/g" /etc/conf.d/keymaps
 rc-update add elogind boot
 rc-update add chronyd default

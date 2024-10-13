@@ -12,19 +12,16 @@ echo -e "
 ___________________________________________________________________________________________________________________________________
 "
 
-echo "TESTE TESTE TESTE"
-echo "$(uname -m)-unknown-$(uname -s | tr '[:upper:]' '[:lower:]')"
-echo "TESTE TESTE TESTE"
-
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
 emerge --ask=n \
-  app-admin/doas \
   app-admin/eclean-kernel \
   app-portage/gentoolkit \
+  dev-vcs/git \
   net-misc/chrony \
   sys-block/io-scheduler-udev-rules \
-  sys-kernel/gentoo-kernel || exit 1
+  sys-kernel/gentoo-kernel \
+  app-admin/doas || exit 1
 
 # configures doas
 cat <<EOF >/etc/doas.conf

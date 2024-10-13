@@ -22,8 +22,6 @@ emerge --ask=n --sync --quiet || exit 1
 emerge --oneshot --ask=n app-portage/cpuid2cpuflags
 sed -i "s/CPU_FLAGS_X86=\"\"/CPU_FLAGS_X86=\"$(cpuid2cpuflags | cut -d' ' -f2-)\"/g" /etc/portage/make.conf
 emerge --ask=n --update --deep --newuse @world || exit 1
-emerge --ask=n --depclean || exit 1
-eselect news read >/dev/null 2>&1
 
 # configures system
 echo "${TIMEZONE}" >/etc/timezone
