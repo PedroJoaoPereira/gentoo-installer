@@ -12,6 +12,10 @@ echo -e "
 ___________________________________________________________________________________________________________________________________
 "
 
+echo "TESTE TESTE TESTE"
+echo "$(uname -m)-unknown-$(uname -s | tr '[:upper:]' '[:lower:]')"
+echo "TESTE TESTE TESTE"
+
 # installs dependencies
 echo 'app-admin/doas persist' >>/etc/portage/package.use
 emerge --ask=n \
