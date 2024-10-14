@@ -15,58 +15,58 @@ ________________________________________________________________________________
 # reads from arguments file
 if [[ ! -z $1 ]]; then
     source $1
-    host=$(basename $1 | sed 's/\.props//')
+    scripted_host=$(basename $1 | sed 's/\.props//')
 fi
 
 # gets user input
-if [[ -z ${user} ]]; then
-    read -p ' - User: ' USER
+if [[ -z ${scripted_user} ]]; then
+    read -p ' - User: ' THIS_USER
 else
-    USER=${user}
+    THIS_USER=${scripted_user}
 fi
-read -s -p ' - Password: ' PASSWORD
+read -s -p ' - Password: ' THIS_PASSWORD
 echo ''
-read -s -p ' - Confirm password: ' PASSWORD_CONFIRMATION
+read -s -p ' - Confirm password: ' THIS_PASSWORD_CONFIRMATION
 echo ''
-if [[ -z ${host} ]]; then
-    read -p ' - Host: ' HOST
+if [[ -z ${scripted_host} ]]; then
+    read -p ' - Host: ' THIS_HOST
 else
-    HOST=${host}
+    THIS_HOST=${scripted_host}
 fi
-if [[ -z ${device} ]]; then
-    read -p ' - Device name /dev/_ (default is nvme0n1): ' DEVICE
+if [[ -z ${scripted_device} ]]; then
+    read -p ' - Device name /dev/_ (default is nvme0n1): ' THIS_DEVICE
 else
-    DEVICE=${device}
+    THIS_DEVICE=${scripted_device}
 fi
-if [[ -z ${separator} ]]; then
-    read -p ' - Device separator /dev/nvme0n1_1 (default is p, type "?" for an empty separator symbol): ' DEVICE_SEPARATOR
+if [[ -z ${scripted_separator} ]]; then
+    read -p ' - Device separator /dev/nvme0n1_1 (default is p, type "?" for an empty separator symbol): ' THIS_DEVICE_SEPARATOR
 else
-    DEVICE_SEPARATOR=${separator}
+    THIS_DEVICE_SEPARATOR=${scripted_separator}
 fi
-if [[ -z ${efi} ]]; then
-    read -p ' - EFI partition size (default is +1G, type "?" for remaining disk size): ' EFI_SIZE
+if [[ -z ${scripted_efi} ]]; then
+    read -p ' - EFI partition size (default is +1G, type "?" for remaining disk size): ' THIS_EFI_SIZE
 else
-    EFI_SIZE=${efi}
+    THIS_EFI_SIZE=${scripted_efi}
 fi
-if [[ -z ${swap} ]]; then
-    read -p ' - SWAP partition size (default is +8G, type "?" for remaining disk size): ' SWAP_SIZE
+if [[ -z ${scripted_swap} ]]; then
+    read -p ' - SWAP partition size (default is +8G, type "?" for remaining disk size): ' THIS_SWAP_SIZE
 else
-    SWAP_SIZE=${swap}
+    THIS_SWAP_SIZE=${scripted_swap}
 fi
-if [[ -z ${root} ]]; then
-    read -p ' - ROOT partition size (default is "?" for remaining disk size, type "+128G" to change it to something else): ' ROOT_SIZE
+if [[ -z ${scripted_root} ]]; then
+    read -p ' - ROOT partition size (default is "?" for remaining disk size, type "+128G" to change it to something else): ' THIS_ROOT_SIZE
 else
-    ROOT_SIZE=${root}
+    THIS_ROOT_SIZE=${scripted_root}
 fi
-if [[ -z ${timezone} ]]; then
-    read -p ' - Timezone (default is Europe/Lisbon): ' TIMEZONE
+if [[ -z ${scripted_timezone} ]]; then
+    read -p ' - Timezone (default is Europe/Lisbon): ' THIS_TIMEZONE
 else
-    TIMEZONE=${timezone}
+    THIS_TIMEZONE=${scripted_timezone}
 fi
-if [[ -z ${keymap} ]]; then
-    read -p ' - Keymap (default is pt-latin9): ' KEYMAP
+if [[ -z ${scripted_keymap} ]]; then
+    read -p ' - Keymap (default is pt-latin9): ' THIS_KEYMAP
 else
-    KEYMAP=${keymap}
+    THIS_KEYMAP=${scripted_keymap}
 fi
 
 function get-current-stage3-url() {
@@ -81,50 +81,50 @@ function get-current-stage3-url() {
 }
 
 # sets default values
-DEVICE="/dev/${DEVICE:-nvme0n1}"
-DEVICE_SEPARATOR="${DEVICE_SEPARATOR:-p}"
-EFI_SIZE="${EFI_SIZE:-+1G}"
-SWAP_SIZE="${SWAP_SIZE:-+8G}"
-ROOT_SIZE="${ROOT_SIZE:-?}"
-STAGE_FILE=$(get-current-stage3-url)
-TIMEZONE="${TIMEZONE:-Europe/Lisbon}"
-KEYMAP="${KEYMAP:-pt-latin9}"
+THIS_DEVICE="/dev/${THIS_DEVICE:-nvme0n1}"
+THIS_DEVICE_SEPARATOR="${THIS_DEVICE_SEPARATOR:-p}"
+THIS_EFI_SIZE="${THIS_EFI_SIZE:-+1G}"
+THIS_SWAP_SIZE="${THIS_SWAP_SIZE:-+8G}"
+THIS_ROOT_SIZE="${THIS_ROOT_SIZE:-?}"
+THIS_STAGE_FILE=$(get-current-stage3-url)
+THIS_TIMEZONE="${THIS_TIMEZONE:-Europe/Lisbon}"
+THIS_KEYMAP="${THIS_KEYMAP:-pt-latin9}"
 
 # checks if password and password confirmation match
-if [[ ${PASSWORD} != ${PASSWORD_CONFIRMATION} ]]; then
+if [[ ${THIS_PASSWORD} != ${THIS_PASSWORD_CONFIRMATION} ]]; then
     echo -e 'Passwords do not match!\n'
     exit 1
 fi
 
 # sets special input variables values
-if [[ "${DEVICE_SEPARATOR}" = $'?' ]]; then
-    DEVICE_SEPARATOR=''
+if [[ "${THIS_DEVICE_SEPARATOR}" = $'?' ]]; then
+    THIS_DEVICE_SEPARATOR=''
 fi
-if [[ "${EFI_SIZE}" = $'?' ]]; then
-    EFI_SIZE=' '
+if [[ "${THIS_EFI_SIZE}" = $'?' ]]; then
+    THIS_EFI_SIZE=' '
 fi
-if [[ "${SWAP_SIZE}" = $'?' ]]; then
-    SWAP_SIZE=' '
+if [[ "${THIS_SWAP_SIZE}" = $'?' ]]; then
+    THIS_SWAP_SIZE=' '
 fi
-if [[ "${ROOT_SIZE}" = $'?' ]]; then
-    ROOT_SIZE=' '
+if [[ "${THIS_ROOT_SIZE}" = $'?' ]]; then
+    THIS_ROOT_SIZE=' '
 fi
 
 # prints out user choices
 echo -e "
 Confirm your choices:
 
-User: ${USER}
+User: ${THIS_USER}
 Password: ********
-Host: ${HOST}
-Device: ${DEVICE}
-Device separator: ${DEVICE_SEPARATOR}
-EFI partition size: ${EFI_SIZE}
-SWAP partition size: ${SWAP_SIZE}
-ROOT partition size: ${ROOT_SIZE}
-Stage file: ${STAGE_FILE}
-Timezone: ${TIMEZONE}
-Keymap: ${KEYMAP}
+Host: ${THIS_HOST}
+Device: ${THIS_DEVICE}
+Device separator: ${THIS_DEVICE_SEPARATOR}
+EFI partition size: ${THIS_EFI_SIZE}
+SWAP partition size: ${THIS_SWAP_SIZE}
+ROOT partition size: ${THIS_ROOT_SIZE}
+Stage file: ${THIS_STAGE_FILE}
+Timezone: ${THIS_TIMEZONE}
+Keymap: ${THIS_KEYMAP}
 "
 
 # confirms user choices
@@ -135,11 +135,11 @@ if [[ "${CONFIRMATION_DIALOG}" == 'n' || "${CONFIRMATION_DIALOG}" == 'N' ]]; the
 fi
 
 # checks if any empty variable
-if [[ -z ${USER} || -z ${PASSWORD} || -z ${HOST} || -z ${STAGE_FILE} || -z ${TIMEZONE} || -z ${KEYMAP} ]]; then
+if [[ -z ${THIS_USER} || -z ${THIS_PASSWORD} || -z ${THIS_HOST} || -z ${THIS_STAGE_FILE} || -z ${THIS_TIMEZONE} || -z ${THIS_KEYMAP} ]]; then
     echo 'Some variables are empty aborting'
     echo ''
     exit 1
 fi
 
 # exports variables
-export USER PASSWORD HOST DEVICE DEVICE_SEPARATOR EFI_SIZE SWAP_SIZE ROOT_SIZE STAGE_FILE TIMEZONE KEYMAP
+export THIS_USER THIS_PASSWORD THIS_HOST THIS_DEVICE THIS_DEVICE_SEPARATOR THIS_EFI_SIZE THIS_SWAP_SIZE THIS_ROOT_SIZE THIS_STAGE_FILE THIS_TIMEZONE THIS_KEYMAP

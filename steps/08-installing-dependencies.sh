@@ -12,17 +12,12 @@ echo -e "
 ___________________________________________________________________________________________________________________________________
 "
 
-# installs new USE flags
-sed -i 's/USE=""/USE="dist-kernel dbus elogind networkmanager"/g' /etc/portage/make.conf
-emerge --ask=n --update --deep --changed-use @world || exit 1
-env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
-
 # installs networkmanager
 emerge --ask=n net-misc/networkmanager || exit 1
 rc-update add elogind boot
 rc-update add NetworkManager default
 
-# installs time synchronization
+# installs time synchronizer
 emerge --ask=n net-misc/chrony || exit 1
 rc-update add chronyd default
 
@@ -44,10 +39,10 @@ EOF
 chown -c root:root /etc/doas.conf
 
 # sets user
-useradd -m -G users,wheel,audio,video,usb,plugdev -s /bin/bash ${USER}
-chown -R -c ${USER}:${USER} /home/${USER}
-passwd ${USER} <<EOF
-${PASSWORD}
-${PASSWORD}
+useradd -m -G users,wheel,audio,video,usb,plugdev -s /bin/bash ${THIS_USER}
+chown -R -c ${THIS_USER}:${THIS_USER} /home/${THIS_USER}
+passwd ${THIS_USER} <<EOF
+${THIS_PASSWORD}
+${THIS_PASSWORD}
 EOF
 passwd -dl root

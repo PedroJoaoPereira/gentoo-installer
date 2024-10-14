@@ -16,30 +16,33 @@ ________________________________________________________________________________
 cat <<EOF >/etc/fstab
 # <fs> <mountpoint> <type> <opts> <dump> <pass>
 # boot partition
-${DEVICE}${DEVICE_SEPARATOR}1 /efi vfat umask=0077 0 2
+${THIS_DEVICE}${THIS_DEVICE_SEPARATOR}1 /efi vfat umask=0077 0 2
 # swap partition
-${DEVICE}${DEVICE_SEPARATOR}2 none swap sw 0 0
+${THIS_DEVICE}${THIS_DEVICE_SEPARATOR}2 none swap sw 0 0
 # root partition
-${DEVICE}${DEVICE_SEPARATOR}3 / ext4 defaults,noatime 0 1
+${THIS_DEVICE}${THIS_DEVICE_SEPARATOR}3 / ext4 defaults,noatime 0 1
 EOF
 
 # sets local network
-echo ${HOST} >/etc/hostname
+echo ${THIS_HOST} >/etc/hostname
 cat <<EOF >/etc/hosts
 # IPv4 and IPv6 localhost aliases
-127.0.0.1       localhost ${HOST}
-::1             localhost ${HOST}
+127.0.0.1       localhost ${THIS_HOST}
+::1             localhost ${THIS_HOST}
 EOF
 
 # sets root password
 passwd <<EOF
-${PASSWORD}
-${PASSWORD}
+${THIS_PASSWORD}
+${THIS_PASSWORD}
 EOF
 
 # sets keymap
-sed -i "s/keymap=\"us\"/keymap=\"${KEYMAP}\"/g" /etc/conf.d/keymaps
+sed -i "s/keymap=\"us\"/keymap=\"${THIS_KEYMAP}\"/g" /etc/conf.d/keymaps
 
 # removes useless ttys
 sed -i 's/^c[3-6]:/#\0/' /etc/inittab
-sed -i "s/^c1:12345:respawn:\/sbin\/agetty/\0 -a ${USER}/" /etc/inittab
+sed -i "s/^c1:12345:respawn:\/sbin\/agetty/\0 -a ${THIS_USER}/" /etc/inittab
+
+# updates system environment variables
+env-update && source /etc/profile && export PS1="(chroot) ${PS1}"

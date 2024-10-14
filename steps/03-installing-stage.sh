@@ -14,11 +14,11 @@ ________________________________________________________________________________
 
 # creates root mount point
 mkdir -p /mnt/gentoo
-mount ${DEVICE}${DEVICE_SEPARATOR}3 /mnt/gentoo
+mount ${THIS_DEVICE}${THIS_DEVICE_SEPARATOR}3 /mnt/gentoo
 cd /mnt/gentoo
 
 # downloads stage file
-wget ${STAGE_FILE} || exit 1
+wget ${THIS_STAGE_FILE} || exit 1
 tar xpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 # configures empty portage configuration
@@ -27,7 +27,7 @@ touch /mnt/gentoo/etc/portage/package.license
 touch /mnt/gentoo/etc/portage/package.use
 cat <<EOF >/mnt/gentoo/etc/portage/make.conf
 # global USE flags
-USE=""
+USE="dist-kernel dbus elogind networkmanager"
 
 # CPU settings
 CPU_FLAGS_X86=""
