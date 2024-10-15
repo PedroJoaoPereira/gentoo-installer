@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # gets this script directory for relative imports
-export SCRIPT_ROOT_DIR=$(dirname $(readlink -f $0))
-export HOSTS_DIR=${SCRIPT_ROOT_DIR}/hosts
-export STEPS_DIR=${SCRIPT_ROOT_DIR}/steps
+SCRIPT_ROOT_DIR=$(dirname $(readlink -f $0))
+HOSTS_DIR=${SCRIPT_ROOT_DIR}/hosts
+STEPS_DIR=${SCRIPT_ROOT_DIR}/steps
 
 # gets host setup file, if it exists
-export HOST_SETUP=${HOSTS_DIR}/$1.props
+HOST_SETUP=${HOSTS_DIR}/$1.props
 
 # runs installation
 if [[ ! -f ${HOST_SETUP} ]]; then
