@@ -6,54 +6,48 @@ This script is intended to create a default gentoo base system (even though opin
 
 ### Disclaimer
 
-This project can be used as reference for different solutions but is not the final and ultimate approach as some decisions are very opinionated as referred above.
+This project can be used as reference for different solutions but is not the final and ultimate approach as some installation approaches are very opinionated, such as the ones referred above.
 
 Any contribution either in the form of issues discovering, pull requests or ideas are welcome.
 
 ## Install
 
-This installation process has two install approaches, a _install_ script that assumes that the required dependency `wget` is installed and assumes that the project was clones, and a more comfy approach _web-install_ that goes through the whole installation with minimal interaction.
+This installation process has two install approaches, a _install_ script that assumes that the required dependency `wget` is installed and assumes that the project was cloned to the local filesystem, and a more comfy approach _web-install_ that goes through the whole installation with minimal interaction by automatically cloning the project and executing it.
 
-This script assumes a `debian` based environment is used as the install environment and a root terminal shell.
-
-```bash
-sudo su
-```
-
-### _web-install_ 
-
-To start the installation, run the following command in a live `debian` base ISO such as Ubuntu:
+This script assumes that is being executed from a root shell:
 
 ```bash
-apt update
-apt install curl -y
-bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh)
-```
-
-To install a templated setup - that reads the system configuration from a properties file, run the following command:
-
-```bash
-apt update
-apt install curl -y
-bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh) gentoo-laptop-msi-es
+sudo su # for sudo
+doas su # for doas
+...
 ```
 
 ### _install_
 
-To start the installation, run the following command in a live `debian` base ISO such as Ubuntu:
+To install gentoo in a system by going through all the setup steps interactively:
 
 ```bash
-apt update
-apt install curl git wget -y
 git clone https://github.com/pedrojoaopereira/gentoo-installer
 gentoo-installer/install.sh 2>&1 | tee ./install.log
 ```
 
-To install a templated setup - that reads the system configuration from a properties file, run the following command:
+To install gentoo in a system from a templated system configuration, a `hostname` should be passed as argument:
 
 ```bash
-apt update
-apt install curl git wget -y
 git clone https://github.com/pedrojoaopereira/gentoo-installer
 gentoo-installer/install.sh gentoo-laptop-msi-es 2>&1 | tee ./install.log
+```
+
+### _web-install_ 
+
+To install gentoo in a system by going through all the setup steps interactively:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh)
+```
+
+To install gentoo in a system from a templated system configuration, a `hostname` should be passed as argument:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/pedrojoaopereira/gentoo-installer/refs/heads/main/web-install.sh) gentoo-laptop-msi-es
 ```
