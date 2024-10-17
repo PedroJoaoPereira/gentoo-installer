@@ -12,7 +12,7 @@ Any contribution either in the form of issues discovering, pull requests or idea
 
 ## Install
 
-This installation process has two install approaches, a _install_ script that assumes that the required dependency `wget` is installed and assumes that the project was cloned to the local filesystem, and a more comfy approach _web-install_ that goes through the whole installation with minimal interaction by automatically cloning the project and executing it.
+This installation process has two install approaches, a _install_ script that assumes that the required dependency `wget` is installed and assumes that the project was cloned to the local filesystem, and a more comfy approach _web-install_ that goes through the whole installation with minimal interaction by automatically cloning the project and executing it, for that reason `git` is also a dependency requirement in this approach.
 
 This script assumes that is being executed from a root shell:
 
